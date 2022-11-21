@@ -7,11 +7,15 @@ class LongestWordsTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Longest Word"
   end
 
-  # test "saying Hello yields a grumpy response from the coach" do
-  #   visit ask_url
-  #   fill_in "question", with: "Hello"
-  #   click_on "Ask"
+  test "saying Hello yields a grumpy response from the coach" do
+    get "/new"
+    assert_response :success
 
-  #   assert_text "I don't care, get dressed and go to work!"
-  # end
+    post '/score',
+    params: { letters: ["H", "I"], answer: "Hi" }
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_text "Congratulations"
+  end
 end

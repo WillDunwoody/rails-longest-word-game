@@ -28,8 +28,8 @@ class GamesController < ApplicationController
       end
     end
 
-    url = "https://wagon-dictionary.herokuapp.com/#{answer.join}"
-    parse = JSON.parse(URI.open(url).read)
+    # url = "https://wagon-dictionary.herokuapp.com/#{answer.join}"
+    parse = JSON.parse(URI.open("https://wagon-dictionary.herokuapp.com/#{answer.join}").read)
     check = parse['found']
 
     if check_array.sort == answer.sort && check == true
