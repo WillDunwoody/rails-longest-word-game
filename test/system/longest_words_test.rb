@@ -7,15 +7,30 @@ class LongestWordsTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Longest Word"
   end
 
-  test "saying Hello yields a grumpy response from the coach" do
-    get "/new"
-    assert_response :success
+  test "filling in form redirects to score page" do
+    visit new_url
 
-    post '/score',
-    params: { letters: ["H", "I"], answer: "Hi" }
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
-    assert_text "Congratulations"
+    fill_in 'answer', with: 'trying'
+    click_on 'Check!'
+
+    assert_text 'Result'
+  end
+
+  test "get message when word is not in dictionary" do
+    visit new_url
+
+    fill_in 'answer', with: 'asfkaskf'
+    click_on 'Check!'
+
+    assert_text 'Sorry, Asfkaskf is not in the dictionary'
+  end
+
+  test 'get message when word is correct' do
+    visit new_url
+
+    fill_in 'answer', with: 'hi'
+    click_on 'Check!'
+
+    assert_text 'Congratulations! Hi is correct!'
   end
 end
